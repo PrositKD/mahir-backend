@@ -62,7 +62,10 @@ const postSettingEnvBYAdmin = catchAsync( async (req, res) => {
     await seedAdmin({adminInfo ,valueString});
 
     const file = path.join(__dirname, `./../../../../.env${valueString.NODE_ENV === 'prod' ? '.prod': ".dev"}`);
+    if (!process.env.VERCEL) {
     fs.writeFileSync(file , envValues);
+    }
+    
 
     sendResponse(res, {
         statusCode: httpStatus.CREATED,
