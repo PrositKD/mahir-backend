@@ -1,11 +1,16 @@
 import dotenv from 'dotenv';
 import path from 'node:path';
-const envPath: string = path.join(
-    __dirname,
-    '../../../',
-    `.env.${process.env.NODE_ENV}`,
-);
-dotenv.config({ path: envPath });
+
+// Load .env only when not on Vercel
+if (!process.env.VERCEL) {
+    const envPath: string = path.join(
+        __dirname,
+        '../../../',
+        `.env.${process.env.NODE_ENV || 'dev'}`,
+    );
+    dotenv.config({ path: envPath });
+}
+
 export default {
     db_string: process.env.DB_STRING,
     port: process.env.PORT || 3000,
